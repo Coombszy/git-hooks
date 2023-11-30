@@ -59,7 +59,7 @@ def run_scripts(script_type):
         print(f"[{script_type}] {script} ", end="")
         script_path = os.path.join(hooks_repo_path, script_type, script)
         # Run script and capture stdout
-        os.system("chmod +x {script_path}")
+        os.system(f"chmod +x {script_path}")
         result = subprocess.run(script_path, stdout=subprocess.PIPE, check=False)
         if result.returncode != 0:
             global exit_code
@@ -111,9 +111,9 @@ run_classifiers()
 
 if exit_code != 0:
     print("#" * 80)
-    print("Commit aborted! {hook_name} hook failed. Please fix the errors above.")
+    print(f"Commit aborted! {hook_name} hook failed. Please fix the errors above.")
 else:
-    print("{hook_name} hook passed. Committing...")
+    print(f"{hook_name} hook passed. Committing...")
 
 # Sleep for 0.2 seconds to allow the user to see the output
 # before the commit is made
