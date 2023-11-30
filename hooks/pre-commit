@@ -1,0 +1,94 @@
+#! /usr/bin/env python3
+################################################################################
+# `pre-commit` hook
+#
+# This script acts as a hook into other files/scripts that are run before a git
+# commit is made.
+#
+# To add new languages/targets, first create a new directory in the root of the
+# repo with the name of the language/target. Then add the name of the directory
+# to the `pre_commit_scripts` dictionary below. Finally, add the names of the
+# scripts to be run to the list of the language/target in the dictionary.
+#
+# Additionally, if a new language/target requires a new classifier, add a new
+# function to the `Classifiers` section below. Then call the function in the
+# `run_classifiers` function.
+#
+################################################################################
+
+pre_commit_scripts = {
+    'terraform': [ 'fmt.sh', 'validate.sh', 'tflint.sh' ]
+}
+
+################################################################################
+# Classifiers
+# Used to work out if and when a script should be run
+# file_extensions: a global list of all file extensions in the git repo
+
+# Call all Classifiers
+def run_classifiers():
+    # Terraform
+    if is_terraform_file():
+        run_scripts('terraform')
+
+# Terraform
+def is_terraform_file():
+    if list_contains_any(['.tf', '.tfvars'], file_extensions):
+        return True
+
+################################################################################
+
+# Run all scripts of a given type
+def run_scripts(script_type):
+    for script in pre_commit_scripts[script_type]:
+        print("[{}] {} ".format(script_type,script), end="")
+        script_path = os.path.join(git_repo_path, script_type, script)
+        # Run script and capture stdout
+        os.system("chmod +x {}".format(script_path))
+        result = subprocess.run(script_path, stdout=subprocess.PIPE)
+        if result.returncode != 0:
+            global exit_code
+            exit_code = 1
+            print("FAILED!")
+            print(result.stdout.decode('utf-8'), end="")
+        else:
+            print("OK!")
+
+# Get all file extensions in a directory and its subdirectories
+def get_file_extensions(directory):
+    file_extensions = []
+    for root, _, files in os.walk(directory):
+        for file in files:
+            file_extension = os.path.splitext(file)[1]
+            if file_extension not in file_extensions:
+                file_extensions.append(file_extension)
+    return file_extensions
+
+# If any elements of a list are in another list
+def list_contains_any(list1, list2):
+    for element in list1:
+        if element in list2:
+            return True
+    return False
+
+################################################################################
+import os
+import subprocess
+
+# Get path of hooks repo
+hooks_repo_path = os.path.dirname(os.path.realpath(__file__))
+# Get path of git repo
+git_repo_path = os.path.dirname(hooks_repo_path)
+
+# Global states
+exit_code = 0
+file_extensions = get_file_extensions(git_repo_path)
+
+# Run all classifiers
+run_classifiers()
+
+if exit_code != 0:
+    print("#" * 80)
+    print("Commit aborted! pre-commit hook failed. Please fix the errors above.")
+exit(exit_code)
+
