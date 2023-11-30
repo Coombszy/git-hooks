@@ -15,11 +15,15 @@
 # `run_classifiers` function.
 #
 ################################################################################
+import os
+import sys
+import subprocess
+import time
 
 hook_name = "pre-commit"
 scripts = {
     "terraform": ["fmt.sh", "validate.sh", "tflint.sh"],
-    "python": ["black-fmt.sh"],
+    "python": ["black-fmt.sh", "prospector.sh"],
 }
 
 ################################################################################
@@ -38,14 +42,12 @@ def run_classifiers():
 
 # Terraform
 def is_terraform_file():
-    if list_contains_any([".tf", ".tfvars"], file_extensions):
-        return True
+    return list_contains_any([".tf", ".tfvars"], file_extensions)
 
 
 # Python
 def is_python_file():
-    if list_contains_any([".py"], file_extensions):
-        return True
+    return list_contains_any([".py"], file_extensions)
 
 
 ################################################################################
@@ -54,11 +56,11 @@ def is_python_file():
 # Run all scripts of a given type
 def run_scripts(script_type):
     for script in scripts[script_type]:
-        print("[{}] {} ".format(script_type, script), end="")
+        print(f"[{script_type}] {script} ", end="")
         script_path = os.path.join(hooks_repo_path, script_type, script)
         # Run script and capture stdout
-        os.system("chmod +x {}".format(script_path))
-        result = subprocess.run(script_path, stdout=subprocess.PIPE)
+        os.system("chmod +x {script_path}")
+        result = subprocess.run(script_path, stdout=subprocess.PIPE, check=False)
         if result.returncode != 0:
             global exit_code
             exit_code = 1
@@ -71,7 +73,7 @@ def run_scripts(script_type):
 # Get all file extensions in a directory and its subdirectories
 def get_file_extensions(directory):
     file_extensions = []
-    for root, _, files in os.walk(directory):
+    for _, _, files in os.walk(directory):
         for file in files:
             file_extension = os.path.splitext(file)[1]
             if file_extension not in file_extensions:
@@ -88,14 +90,14 @@ def list_contains_any(list1, list2):
 
 
 ################################################################################
-import os
-import subprocess
-import time
+
 
 # Get path of hooks repo
 hooks_repo_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 working_repo_path = (
-    subprocess.run(["git", "rev-parse", "--show-toplevel"], stdout=subprocess.PIPE)
+    subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"], stdout=subprocess.PIPE, check=False
+    )
     .stdout.decode("utf-8")
     .strip()
 )
@@ -109,13 +111,11 @@ run_classifiers()
 
 if exit_code != 0:
     print("#" * 80)
-    print(
-        "Commit aborted! {} hook failed. Please fix the errors above.".format(hook_name)
-    )
+    print("Commit aborted! {hook_name} hook failed. Please fix the errors above.")
 else:
-    print("{} hook passed. Committing...".format(hook_name))
+    print("{hook_name} hook passed. Committing...")
 
 # Sleep for 0.2 seconds to allow the user to see the output
 # before the commit is made
 time.sleep(0.2)
-exit(exit_code)
+sys.exit(exit_code)
