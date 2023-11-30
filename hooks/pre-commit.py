@@ -5,6 +5,14 @@
 # This script acts as a hook into other files/scripts that are run before a git
 # commit is made.
 #
+# To add new languages/targets, first create a new directory in the root of the
+# repo with the name of the language/target. Then add the name of the directory
+# to the `pre_commit_scripts` dictionary below. Finally, add the names of the
+# scripts to be run to the list of the language/target in the dictionary.
+#
+# Additionally, if a new language/target requires a new classifier, add a new
+# function to the `Classifiers` section below. Then call the function in the
+# `run_classifiers` function.
 #
 ################################################################################
 
@@ -17,18 +25,18 @@ pre_commit_scripts = {
 # Used to work out if and when a script should be run
 # file_extensions: a global list of all file extensions in the git repo
 
+# Call all Classifiers
+def run_classifiers():
+    # Terraform
+    if is_terraform_file():
+        run_scripts('terraform')
+
 # Terraform
 def is_terraform_file():
     if list_contains_any(['.tf', '.tfvars'], file_extensions):
         return True
 
 ################################################################################
-
-# Call all Classifiers
-def run_classifiers():
-    # Terraform
-    if is_terraform_file():
-        run_scripts('terraform')
 
 # Run all scripts of a given type
 def run_scripts(script_type):
