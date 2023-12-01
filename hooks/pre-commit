@@ -24,6 +24,7 @@ hook_name = "pre-commit"
 scripts = {
     "terraform": ["fmt.sh", "validate.sh", "tflint.sh"],
     "python": ["black-fmt.sh", "prospector.sh"],
+    "rust": ["cargo-fmt.sh", "cargo-clippy.sh"],
 }
 
 ################################################################################
@@ -38,6 +39,8 @@ def run_classifiers():
         run_scripts("terraform")
     if is_python_file():
         run_scripts("python")
+    if is_rust_file():
+        run_scripts("rust")
 
 
 # Terraform
@@ -48,6 +51,11 @@ def is_terraform_file():
 # Python
 def is_python_file():
     return list_contains_any([".py"], file_extensions)
+
+
+# Rust
+def is_rust_file():
+    return list_contains_any([".rs"], file_extensions)
 
 
 ################################################################################
