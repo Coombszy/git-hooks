@@ -1,31 +1,19 @@
 #! /usr/bin/env python3
 ################################################################################
 # `pre-commit` hook
+# This hook is run before every commit.
 #
-# This script acts as a hook into other files/scripts that are run before a git
-# commit is made.
-#
-# To add new languages/targets, first create a new directory in the root of the
-# repo with the name of the language/target. Then add the name of the directory
-# to the `scripts` dictionary below. Finally, add the names of the
-# scripts to be run to the list of the language/target in the dictionary.
-#
-# Additionally, if a new language/target requires a new classifier, add a new
-# function to the `Classifiers` section below. Then call the function in the
-# `run_classifiers` function.
-#
+# It runs all scripts under the`pre-commit` key in `config.json`. Which scripts
+# are run is determined by the classifiers.
 ################################################################################
 import os
 import sys
 import subprocess
 import time
+from lib.config import Config
 
 hook_name = "pre-commit"
-scripts = {
-    "terraform": ["fmt.sh", "validate.sh", "tflint.sh"],
-    "python": ["black-fmt.sh", "prospector.sh"],
-    "rust": ["cargo-fmt.sh", "cargo-clippy.sh"],
-}
+scripts = Config().get_config()[hook_name]
 
 ################################################################################
 # Classifiers
