@@ -1,4 +1,5 @@
 #!/bin/bash
+# Copyright (C) 2023  Coombszy
 set -euo pipefail
 
 # Capture output and store stdout and stderr in separate variables
