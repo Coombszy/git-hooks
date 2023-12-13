@@ -52,6 +52,11 @@ def is_rust_file():
 
 # Run all scripts of a given type
 def run_scripts(script_type):
+    # Check if any scripts are configured
+    if script_type not in scripts:
+        print(f"[{script_type}] No scripts configured!")
+        return
+
     for script in scripts[script_type]:
         print(f"[{script_type}] {script} ", end="")
         script_path = os.path.join(hooks_repo_path, script_type, script)
