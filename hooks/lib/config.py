@@ -15,7 +15,9 @@ class Config:
             # Get hooks path from Git global config
             return os.popen("git config --global core.hooksPath").read().strip()
         except Exception as e:
-            raise RuntimeError("Failed to get hooks path from Git. Is it installed?") from e
+            raise RuntimeError(
+                "Failed to get hooks path from Git. Is it installed?"
+            ) from e
 
     def __get_config_path(self):
         """Get config path using relative path from hooks path"""
@@ -59,7 +61,7 @@ class Config:
         # Get config path
         config_path = self.__get_config_path()
 
-        try :
+        try:
             # Open config file (UTF-8)
             with open(config_path, "r", encoding="utf-8") as config_file:
                 # Load config
