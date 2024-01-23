@@ -23,3 +23,5 @@ Some of the hooks require additional software to be installed. These are listed 
   - Rust:
     - [Rustfmt](https://github.com/rust-lang/rustfmt) - included with cargo
     - [Clippy](https://github.com/rust-lang/rust-clippy) - included with cargo
+  - GitHub Actions:
+    - [actionlint](https://github.com/rhysd/actionlint)

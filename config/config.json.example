@@ -2,6 +2,7 @@
     "pre-commit": {
         "terraform": ["fmt.sh", "validate.sh", "tflint.sh"],
         "python": ["black-fmt.sh", "prospector.sh"],
-        "rust": ["cargo-fmt.sh", "cargo-clippy.sh"]
+        "rust": ["cargo-fmt.sh", "cargo-clippy.sh"],
+        "gh-actions": ["actionlint.sh"]
     }
 }
