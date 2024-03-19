@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2023  Coombszy
+# Copyright (C) 2024  Coombszy
 ################################################################################
 # `pre-commit` hook
 # This hook is run before every commit.
