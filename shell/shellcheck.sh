@@ -2,5 +2,5 @@
 # Copyright (C) 2024  Coombszy
 set -euo pipefail
 
-find . -name "*.sh" -exec shellcheck --color=never {} +
+find . -not \( -path "*.terraform" -prune \) -name "*.sh" -exec shellcheck --color=never {} +
 
