@@ -37,6 +37,7 @@ def run_classifiers():
     # Git/Meta scripts, so always run, it's always a git repo!
     run_scripts("git")
 
+
 # Terraform
 def is_terraform_file():
     return list_contains_any([".tf", ".tfvars"], file_extensions)
@@ -51,9 +52,11 @@ def is_python_file():
 def is_rust_file():
     return list_contains_any([".rs"], file_extensions)
 
+
 # Shell
 def is_shell_file():
     return list_contains_any([".sh"], file_extensions)
+
 
 # GitHub Actions
 def is_github_actions_file():
@@ -62,6 +65,7 @@ def is_github_actions_file():
     has_folder = os.path.isdir(os.path.join(working_repo_path, ".github/workflows"))
 
     return has_folder and list_contains_any([".yml", ".yaml"], file_extensions)
+
 
 ################################################################################
 
