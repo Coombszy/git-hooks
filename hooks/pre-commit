@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
 # Copyright (C) 2023  Coombszy
 ################################################################################
 # `pre-commit` hook
@@ -32,7 +32,8 @@ def run_classifiers():
         run_scripts("rust")
     if is_github_actions_file():
         run_scripts("gh-actions")
-
+    # Git/Meta scripts, so always run, it's always a git repo!
+    run_scripts("git")
 
 # Terraform
 def is_terraform_file():
@@ -56,7 +57,6 @@ def is_github_actions_file():
     has_folder = os.path.isdir(os.path.join(working_repo_path, ".github/workflows"))
 
     return has_folder and list_contains_any([".yml", ".yaml"], file_extensions)
-
 
 ################################################################################
 
