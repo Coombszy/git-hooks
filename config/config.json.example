@@ -3,7 +3,8 @@
         "terraform": ["fmt.sh", "validate.sh", "tflint.sh"],
         "python": ["black-fmt.sh", "prospector.sh"],
         "rust": ["cargo-fmt.sh", "cargo-clippy.sh"],
-        "gh-actions": ["actionlint.sh"]
+        "gh-actions": ["actionlint.sh"],
+        "shell":["shellcheck.sh"],
         "git": ["block-commit.sh"]
     }
 }
