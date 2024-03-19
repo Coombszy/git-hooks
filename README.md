@@ -25,3 +25,5 @@ Some of the hooks require additional software to be installed. These are listed 
     - [Clippy](https://github.com/rust-lang/rust-clippy) - included with cargo
   - GitHub Actions:
     - [actionlint](https://github.com/rhysd/actionlint)
+  - Shell:
+    - [ShellCheck](https://github.com/koalaman/shellcheck)

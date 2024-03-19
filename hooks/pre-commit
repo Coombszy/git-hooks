@@ -32,6 +32,8 @@ def run_classifiers():
         run_scripts("rust")
     if is_github_actions_file():
         run_scripts("gh-actions")
+    if is_shell_file():
+        run_scripts("shell")
     # Git/Meta scripts, so always run, it's always a git repo!
     run_scripts("git")
 
@@ -49,6 +51,9 @@ def is_python_file():
 def is_rust_file():
     return list_contains_any([".rs"], file_extensions)
 
+# Shell
+def is_shell_file():
+    return list_contains_any([".sh"], file_extensions)
 
 # GitHub Actions
 def is_github_actions_file():
