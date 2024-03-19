@@ -3,6 +3,5 @@
 set -euo pipefail
 
 # Prospector is really slow for some reason scanning a repo with a lot of files.
-# So use find and xargs to run it.
-find . -not \( -path *.terraform -prune \) -name "*.py" | xargs python -m prospector -M
+find . -not \( -path "*.terraform" -prune \) -name "*.py" -exec python -m prospector -M {} +
 
