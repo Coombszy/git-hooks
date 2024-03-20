@@ -11,8 +11,14 @@ files_to_skip=("block-commit.sh" "config.json.example")
 # Get the list of staged files
 staged_files=$(git diff --cached --name-only)
 
-# Remove files that are deleted from the staged files list
-staged_files=$(echo "$staged_files" | xargs -I {} test -e {} && echo {})
+# if there are no staged files, exit
+if [ -z "$staged_files" ]
+then
+  exit 0
+fi
+
+# Remove any deleted files from the staged files list
+staged_files=$(echo "$staged_files" | xargs -I {} git ls-files {})
 
 # Create empty array to store files that contain block commit message
 block_commit_files=()
