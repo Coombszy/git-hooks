@@ -6,6 +6,9 @@
 #
 # This file will call into git-hooks
 
+HOOK_NAME = "pre-commit"
+
+import subprocess
 import sys
 import os
 
@@ -16,6 +19,38 @@ sys.path.append(parent)
 
 import githooks
 
-if __name__ == "__main__":
-    githooks.run()
 
+# Get working repo path
+def get_working_repo_path():
+    return (
+        subprocess.run(
+            ["git", "rev-parse", "--show-toplevel"], stdout=subprocess.PIPE, check=False
+        )
+        .stdout.decode("utf-8")
+        .strip()
+    )
+
+
+if __name__ == "__main__":
+    exit_code = githooks.run()
+
+    # If a local script is detected, run it if githooks was successfull
+    hook_path = os.path.join(get_working_repo_path(), ".git/hooks", HOOK_NAME)
+    if os.path.exists(hook_path) and exit_code == 0:
+        print(f"Local {HOOK_NAME} hook detected, running...")
+        result = subprocess.run(
+            hook_path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False
+        )
+
+        if len(result.stdout) > 0:
+            print(result.stdout.decode("utf-8"))
+
+        if result.returncode != 0:
+            exit_code = result.returncode
+    elif os.path.exists(hook_path) and exit_code != 0:
+        print(f"Local {HOOK_NAME} hook detected, skipping until above is resolved")
+
+    if exit_code == 0:
+        print("Hooks passed. Committing...")
+
+    sys.exit(exit_code)

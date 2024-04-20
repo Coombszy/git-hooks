@@ -8,7 +8,6 @@ from classifier import Classifier
 from runner import Runner
 import subprocess
 import os
-import sys
 
 # Globals
 config_path = "config/config.json"
@@ -66,10 +65,7 @@ def run():
             else:
                 print("OK!")
 
-    # NOTE(Liam): Implement calling local repo pre-commit script
-    if exit_code == 0:
-        print("Hooks passed. Committing...")
-    sys.exit(exit_code)
+    return exit_code
 
 
 if __name__ == "__main__":

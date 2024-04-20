@@ -14,7 +14,9 @@ class Runner:
 
     def __run_script(self, sender):
         os.system(f"chmod +x {self.target}")
-        result = subprocess.run(self.target, stdout=subprocess.PIPE, check=False)
+        result = subprocess.run(
+            self.target, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False
+        )
 
         output = {"stdout": None, "exit_code": 0}
         output["stdout"] = result.stdout.decode("utf-8")
