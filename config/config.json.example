@@ -1,0 +1,51 @@
+{
+    "global_enabled": true,
+    "run_local_hooks": true,
+    "targets": {
+        "python": {
+            "enabled": true,
+            "scripts": ["black-fmt.sh", "prospector.sh"],
+            "classifiers": [
+                {
+                    "file_extensions": [".py"]
+                }
+            ]
+
+        },
+        "terraform": {
+            "enabled": true,
+            "scripts": ["fmt.sh", "validate.sh", "tflint.sh"],
+            "classifiers": [
+                {
+                    "file_extensions": [".tf", ".tfvars"]
+                }
+            ]
+
+        },
+        "rust": {
+            "enabled": true,
+            "scripts": ["cargo-fmt.sh", "cargo-clippy.sh"],
+            "classifiers": [
+                {
+                    "file_extensions": [".rs"]
+                }
+            ]
+
+        },
+        "shell": {
+            "enabled": true,
+            "scripts": ["shellcheck.sh"],
+            "classifiers": [
+                {
+                    "file_extensions": [".sh"]
+                }
+            ]
+
+        },
+        "git": {
+            "enabled": true,
+            "scripts": ["block-commit.sh"],
+            "classifiers": []
+        }
+    }
+}

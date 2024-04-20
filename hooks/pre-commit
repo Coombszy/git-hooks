@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+# Copyright (C) 2024  Coombszy
+################################################################################
+# `pre-commit` hook
+# This hook is run before every commit.
+#
+# This file will call into git-hooks
+
+import sys
+import os
+
+# NOTE(Liam): Replace this with a better way to access parent folder modules
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+sys.path.append(parent)
+
+import githooks
+
+if __name__ == "__main__":
+    githooks.run()
+
