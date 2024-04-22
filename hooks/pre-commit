@@ -32,7 +32,7 @@ def get_working_repo_path():
 
 
 if __name__ == "__main__":
-    exit_code = githooks.run()
+    exit_code = githooks.precommit_hook()
 
     # If a local script is detected, run it if githooks was successfull
     hook_path = os.path.join(get_working_repo_path(), ".git/hooks", HOOK_NAME)

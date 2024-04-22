@@ -19,7 +19,7 @@ def cli():
     print("      ... Yeah i'll implement this at somepoint")
 
 
-def run():
+def precommit_hook():
     hooks_repo_path = os.path.dirname(os.path.realpath(__file__))
     config = Config().get_config()
     runners = {}  # All script runners

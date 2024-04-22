@@ -1,6 +1,4 @@
 {
-    "global_enabled": true,
-    "run_local_hooks": true,
     "targets": {
         "python": {
             "enabled": true,
