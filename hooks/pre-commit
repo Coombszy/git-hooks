@@ -33,22 +33,25 @@ def get_working_repo_path():
 
 if __name__ == "__main__":
     exit_code = githooks.precommit_hook()
+    hook_paths = [".git/hooks", ".husky"]
 
-    # If a local script is detected, run it if githooks was successfull
-    hook_path = os.path.join(get_working_repo_path(), ".git/hooks", HOOK_NAME)
-    if os.path.exists(hook_path) and exit_code == 0:
-        print(f"Local {HOOK_NAME} hook detected, running...")
-        result = subprocess.run(
-            hook_path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False
-        )
+    for hook in hook_paths:
+        # If a local script is detected, run it if githooks was successfull
+        hook_path = os.path.join(get_working_repo_path(), hook, HOOK_NAME)
+        if os.path.exists(hook_path) and exit_code == 0:
+            print(f"Local {HOOK_NAME} hook detected, running...")
+            result = subprocess.run(
+                hook_path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False
+            )
 
-        if len(result.stdout) > 0:
-            print(result.stdout.decode("utf-8"))
+            if len(result.stdout) > 0:
+                print(result.stdout.decode("utf-8"))
 
-        if result.returncode != 0:
-            exit_code = result.returncode
-    elif os.path.exists(hook_path) and exit_code != 0:
-        print(f"Local {HOOK_NAME} hook detected, skipping until above is resolved")
+            if result.returncode != 0:
+                exit_code = result.returncode
+
+        elif os.path.exists(hook_path) and exit_code != 0:
+            print(f"Local {HOOK_NAME} hook detected, skipping until above is resolved")
 
     if exit_code == 0:
         print("Hooks passed. Committing...")
