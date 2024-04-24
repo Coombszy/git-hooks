@@ -12,7 +12,7 @@ class Runner:
         self.exit_code = 0
         self.stdout = None
 
-    def __run_script(self, sender):
+    def run_script(self, sender):
         os.system(f"chmod +x {self.target}")
         result = subprocess.run(
             self.target, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False
@@ -27,7 +27,7 @@ class Runner:
     def start(self):
         sender, receiver = Pipe()
         self.receiver = receiver
-        self.proc = Process(target=self.__run_script, args=(sender,))
+        self.proc = Process(target=self.run_script, args=(sender,))
         self.proc.start()
 
     def finish(self):
