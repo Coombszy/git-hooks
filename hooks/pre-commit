@@ -11,6 +11,7 @@ HOOK_NAME = "pre-commit"
 import subprocess
 import sys
 import os
+from time import sleep
 
 # NOTE(Liam): Replace this with a better way to access parent folder modules
 current = os.path.dirname(os.path.realpath(__file__))
@@ -40,15 +41,23 @@ if __name__ == "__main__":
         hook_path = os.path.join(get_working_repo_path(), hook, HOOK_NAME)
         if os.path.exists(hook_path) and exit_code == 0:
             print(f"Local {HOOK_NAME} hook detected, running...")
-            result = subprocess.run(
-                hook_path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False
+
+            p = subprocess.Popen(
+                hook_path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
             )
 
-            if len(result.stdout) > 0:
-                print(result.stdout.decode("utf-8"))
+            while True:
+                line = p.stdout.readline().strip().decode("utf-8")
+                print(line)
 
-            if result.returncode != 0:
-                exit_code = result.returncode
+                if line == "" and p.poll() != None:
+                    sleep(0.05)  # Slow down the loop
+                    break
+
+            p_return_code = p.wait()
+
+            if p_return_code != 0:
+                exit_code = p_return_code
 
         elif os.path.exists(hook_path) and exit_code != 0:
             print(f"Local {HOOK_NAME} hook detected, skipping until above is resolved")
