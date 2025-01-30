@@ -21,9 +21,11 @@ def cli():
 
 def precommit_hook():
     hooks_repo_path = os.path.dirname(os.path.realpath(__file__))
-    config = Config().get_config()
-    runners = {}  # All script runners
     exit_code = 0
+    config = Config().get_config()
+    if config["global_enabled"] != True:
+        return exit_code
+    runners = {}  # All script runners
 
     with Spinner("Analysing repo..."):
         all_file_extensions = get_all_file_extensions(get_working_repo_path())

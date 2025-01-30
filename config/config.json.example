@@ -1,4 +1,5 @@
 {
+    "global_enabled": false,
     "targets": {
         "python": {
             "enabled": true,
