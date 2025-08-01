@@ -49,9 +49,9 @@ if __name__ == "__main__":
             while True:
                 line = p.stdout.readline().strip().decode("utf-8")
                 print(line)
+                sleep(0.05) # Slow down the loop
 
                 if line == "" and p.poll() != None:
-                    sleep(0.05)  # Slow down the loop
                     break
 
             p_return_code = p.wait()
