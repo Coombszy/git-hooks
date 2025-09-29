@@ -1,8 +1,8 @@
 {
-    "global_enabled": false,
+    "global_enabled": true,
     "targets": {
         "python": {
-            "enabled": true,
+            "enabled": false,
             "scripts": ["black-fmt.sh", "prospector.sh"],
             "classifiers": [
                 {
@@ -12,7 +12,7 @@
 
         },
         "terraform": {
-            "enabled": true,
+            "enabled": false,
             "scripts": ["fmt.sh", "validate.sh", "tflint.sh"],
             "classifiers": [
                 {
@@ -22,7 +22,7 @@
 
         },
         "rust": {
-            "enabled": true,
+            "enabled": false,
             "scripts": ["cargo-fmt.sh", "cargo-clippy.sh"],
             "classifiers": [
                 {
@@ -32,11 +32,21 @@
 
         },
         "shell": {
-            "enabled": true,
+            "enabled": false,
             "scripts": ["shellcheck.sh"],
             "classifiers": [
                 {
                     "file_extensions": [".sh"]
+                }
+            ]
+
+        },
+        "cloudformation": {
+            "enabled": false,
+            "scripts": ["cfn-lint.sh"],
+            "classifiers": [
+                {
+                    "file_extensions": [".yaml", ".yml", ".json"]
                 }
             ]
 
