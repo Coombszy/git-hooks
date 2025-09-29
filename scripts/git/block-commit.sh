@@ -1,5 +1,4 @@
 #!/bin/bash
-# Copyright (C) 2024  Coombszy
 set -euo pipefail
 
 # Script will block commit if any of the staged files contain any variation of [`BLOCK-COMMIT`, `BLOCK_COMMIT`, `BLOCK COMMIT`]
