@@ -1,4 +1,3 @@
-# Copyright (C) 2024  Coombszy
 # This lib handles loading config from config.json. If config.json is not
 # found, it will create one with default values.
 #

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# Copyright (C) 2024  Coombszy
 ################################################################################
 from exceptions import MissingScriptsKey
 from spinner import Spinner

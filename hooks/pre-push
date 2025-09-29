@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# Copyright (C) 2024  Coombszy
 ################################################################################
 # `pre-push` hook
 # This is a pass through. It'll just call local hook

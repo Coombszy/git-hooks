@@ -1,4 +1,3 @@
-# Copyright (C) 2024  Coombszy
 ################################################################################
 from multiprocessing import Process, Pipe
 import os
