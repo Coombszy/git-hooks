@@ -43,3 +43,20 @@ All tools must be available on the `PATH`:
   - [ShellCheck](https://github.com/koalaman/shellcheck) - Shell script analysis
 - **Git**:
   - Blocking text - Prevent commit if changes contain `BLOCK-COMMIT`, `BLOCK_COMMIT`, `BLOCK COMMIT`
+
+## Useful Git Aliases
+
+Here are some helpful git aliases to make working with this hooks system easier:
+
+```bash
+# Test pre-commit hooks without actually committing
+git config --global alias.pre-commit "! $(git config --global core.hooksPath)/pre-commit; echo 'Just kidding!'"
+
+# Open the hooks configuration file in your default editor
+git config --global alias.configure-hooks "! \"$(git config --global core.editor)\" \"$(git config --global core.hooksPath)/../config/config.json\""
+```
+
+After setting these up, you can use:
+- `git pre-commit` - Test your pre-commit hooks
+- `git configure-hooks` - Edit your hooks configuration (git config `core.editor` must be set!)
+
