@@ -22,7 +22,7 @@ git config --global core.hooksPath "$(pwd)/hooks"
 
 The hooks are configured via `config/config.json`. If this file doesn't exist, it will be created automatically from `config/config.json.example` on first run.
 
-**By default, all language/tool targets are disabled except Git hooks.** You need to explicitly enable the tools you want to use by setting `"enabled": true` in your configuration file.
+**By default, all language/tool targets are disabled except Git hooks (e.g. block-commit.sh).** You need to explicitly enable the tools you want to use by setting `"enabled": true` in your configuration file.
 
 ## Supported Tools & Requirements
 
@@ -32,7 +32,7 @@ All tools must be available on the `PATH`:
   - [Black](https://github.com/psf/black) - Code formatting
   - [Prospector](https://prospector.landscape.io/en/master/) - Static analysis
 - **Terraform**:
-  - [Terraform](https://www.terraform.io/) - Infrastructure as code
+  - [Terraform](https://www.terraform.io/) - Format and validate Terraform infrastructure as code
   - [TFLint](https://github.com/terraform-linters/tflint) - Terraform linting
 - **Rust**:
   - [Rustfmt](https://github.com/rust-lang/rustfmt) - Code formatting (included with cargo)
@@ -41,3 +41,5 @@ All tools must be available on the `PATH`:
   - [cfn-lint](https://github.com/aws-cloudformation/cfn-lint) - CloudFormation template validation
 - **Shell**:
   - [ShellCheck](https://github.com/koalaman/shellcheck) - Shell script analysis
+- **Git**:
+  - Blocking text - Prevent commit if changes contain `BLOCK-COMMIT`, `BLOCK_COMMIT`, `BLOCK COMMIT`
